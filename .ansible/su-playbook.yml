@@ -1,0 +1,70 @@
+---
+- hosts: all
+  tasks:
+    - name: Install vim 
+      apt:
+        name: vim
+
+    - name: Install tlp
+      apt:
+        name: tlp
+
+    - name: Install tlp-rdw
+      apt:
+        name: tlp-rdw
+
+    - name: Install tp-smapi-dkms
+      apt:
+        name: tp-smapi-dkms
+
+    - name: Install acpi-call-dkms
+      apt:
+        name: acpi-call-dkms
+
+    - name: Install openvpn
+      apt:
+        name: openvpn
+
+    - name: Install qemu-kvm
+      apt:
+        name: qemu-kvm
+
+    - name: Install libvirt-bin
+      apt:
+        name: libvirt-bin
+
+    - name: Install virtinst
+      apt:
+        name: virtinst
+
+    - name: Install bridge-utils
+      apt:
+        name: bridge-utils
+
+    - name: Install cpu-checker
+      apt:
+        name: cpu-checker
+
+    - name: Install virt-manager
+      apt:
+        name: virt-manager
+
+    - name: Install net-tools
+      apt:
+        name: net-tools
+
+    - name: Install VS Code v1.12
+      apt:
+        deb:  https://az764295.vo.msecnd.net/stable/19222cdc84ce72202478ba1cec5cb557b71163de/code_1.12.2-1494422229_amd64.deb
+
+    - name: Install kubectl v1.6.4
+      command: chdir=/tmp {{ item }}
+      with_items:
+        - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.6.4/bin/linux/amd64/kubectl
+        - chmod +x ./kubectl
+        - mv -f -t /usr/local/bin /tmp/kubectl
+
+    - name: Install minikube v0.19.0
+      apt:
+        deb: https://github.com/kubernetes/minikube/releases/download/v0.19.0/minikube_0.19-0.deb
+        
