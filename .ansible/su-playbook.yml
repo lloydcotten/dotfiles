@@ -25,6 +25,11 @@
       apt:
         name: openvpn
 
+    - name: Setup openvpn autostart
+      lineinfile:
+        path: /etc/default/openvpn
+        line: 'AUTOSTART=all'
+
     - name: Install qemu-kvm
       apt:
         name: qemu-kvm
@@ -53,9 +58,17 @@
       apt:
         name: net-tools
 
-    - name: Install VS Code v1.12
+    - name: Install jq
       apt:
-        deb:  https://az764295.vo.msecnd.net/stable/19222cdc84ce72202478ba1cec5cb557b71163de/code_1.12.2-1494422229_amd64.deb
+        name: jq
+  
+    - name: Install Docker
+      apt:
+        name: docker.io
+  
+    - name: Install awscli
+      pip:
+        name: awscli
 
     - name: Install kubectl v1.6.4
       command: chdir=/tmp {{ item }}
@@ -67,4 +80,15 @@
     - name: Install minikube v0.19.0
       apt:
         deb: https://github.com/kubernetes/minikube/releases/download/v0.19.0/minikube_0.19-0.deb
-        
+    
+    - name: Install VS Code v1.13
+      apt:
+        deb: https://az764295.vo.msecnd.net/stable/376c52b955428d205459bea6619fc161fc8faacf/code_1.13.0-1496940180_amd64.deb
+
+    - name: Install Terraform v0.9.5
+      command: chdir=/tmp {{ item }}
+      with_items:
+        - curl -LO https://releases.hashicorp.com/terraform/0.9.5/terraform_0.9.5_linux_amd64.zip
+        - unzip /tmp/terraform_0.9.5_linux_amd64.zip -d /tmp
+        - chmod +x /tmp/terraform
+        - mv -f -t /usr/local/bin /tmp/terraform
