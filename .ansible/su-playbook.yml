@@ -1,7 +1,7 @@
 ---
 - hosts: all
   tasks:
-    - name: Install vim 
+    - name: Install vim
       apt:
         name: vim
 
@@ -69,41 +69,64 @@
     - name: Install jq
       apt:
         name: jq
-  
+
     - name: Install Docker
       apt:
         name: docker.io
-  
+
+    - name: Install mysql client
+      apt:
+        name: mysql-client-core-5.7
+
+    - name: Install postgresql client
+      apt:
+        name: postgresql-client
+
     - name: Install awscli
       pip:
         name: awscli
 
-    - name: Install kubectl v1.6.4
+    - name: Install docker-py
+      pip:
+        name: docker-py
+
+    - name: Install kubectl v1.7.6
       command: chdir=/tmp {{ item }}
       with_items:
-        - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.6.4/bin/linux/amd64/kubectl
+        - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.7.6/bin/linux/amd64/kubectl
         - chmod +x ./kubectl
         - mv -f -t /usr/local/bin /tmp/kubectl
 
-    - name: Install kops 1.6.1
+    - name: Install kops 1.7.0
       command: chdir=/tmp {{ item }}
       with_items:
-        - curl -LO https://github.com/kubernetes/kops/releases/download/1.6.1/kops-linux-amd64
+        - curl -LO https://github.com/kubernetes/kops/releases/download/1.7.0/kops-linux-amd64
         - chmod +x ./kops-linux-amd64
         - mv -f /tmp/kops-linux-amd64 /usr/local/bin/kops
 
-    - name: Install minikube v0.19.0
-      apt:
-        deb: https://github.com/kubernetes/minikube/releases/download/v0.19.0/minikube_0.19-0.deb
-    
-    - name: Install VS Code v1.13
-      apt:
-        deb: https://az764295.vo.msecnd.net/stable/379d2efb5539b09112c793d3d9a413017d736f89/code_1.13.1-1497464373_amd64.deb
-
-    - name: Install Terraform v0.9.8
+    - name: Install Helm 2.6.1
       command: chdir=/tmp {{ item }}
       with_items:
-        - curl -LO https://releases.hashicorp.com/terraform/0.9.8/terraform_0.9.8_linux_amd64.zip
-        - unzip /tmp/terraform_0.9.8_linux_amd64.zip -d /tmp
+        - curl -LO https://storage.googleapis.com/kubernetes-helm/helm-v2.6.1-linux-amd64.tar.gz
+        - tar zxvf helm-v2.6.1-linux-amd64.tar.gz
+        - mv -f -t /usr/local/bin /tmp/linux-amd64/helm
+
+    - name: Install minikube v0.22.2
+      apt:
+        deb: https://github.com/kubernetes/minikube/releases/download/v0.22.2/minikube_0.22-2.deb
+
+    - name: Install VS Code v1.16
+      apt:
+        deb: https://az764295.vo.msecnd.net/stable/27492b6bf3acb0775d82d2f87b25a93490673c6d/code_1.16.1-1505406497_amd64.deb
+
+    - name: Install Kapacitor CLI v1.3.1
+      apt:
+        deb: https://dl.influxdata.com/kapacitor/releases/kapacitor_1.3.1_amd64.deb
+
+    - name: Install Terraform v0.10.6
+      command: chdir=/tmp {{ item }}
+      with_items:
+        - curl -LO https://releases.hashicorp.com/terraform/0.10.6/terraform_0.10.6_linux_amd64.zip
+        - unzip /tmp/terraform_0.10.6_linux_amd64.zip -d /tmp
         - chmod +x /tmp/terraform
         - mv -f -t /usr/local/bin /tmp/terraform
